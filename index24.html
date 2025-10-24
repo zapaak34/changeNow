@@ -1686,7 +1686,19 @@
     border-radius: 2px;
 }
 		
-		
+	
+/* Chatbot FAQ Arrow Animation */
+#chatbot-panel .faq-question span:last-child {
+    transition: transform 0.3s ease;
+}
+
+/* Ensure FAQ answers have proper spacing */
+#chatbot-panel .faq-answer {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}	
+	
+	
 		
     </style>
 </head>
@@ -2259,8 +2271,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#c7d7ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
-                <p class="text-[#c7d7ff] mt-4 text-lg">Support Illustration</p>
-             
+                <p class="text-[#c7d7ff] mt-4 text-lg">Customer Service</p>
+            
             </div>
         </div>
     </div>
@@ -2732,111 +2744,119 @@
         </div>
     </div>
     
-    <div class="max-w-4xl mx-auto">
-        <!-- FAQ Item 1 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>What is cryptocurrency?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>Cryptocurrency is a digital currency secured by cryptography and operating on decentralized networks called blockchains. It enables peer-to-peer transactions without the need for intermediaries like banks.</p>
+    <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-6">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What is cryptocurrency?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Cryptocurrency is a digital currency secured by cryptography and operating on decentralized networks called blockchains. It enables peer-to-peer transactions without the need for intermediaries like banks.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What is a blockchain?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>A blockchain is a distributed ledger that records transactions across a network of computers. It's secure, transparent, and immutable, meaning once data is recorded, it cannot be altered retroactively.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What is a cryptocurrency wallet?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>A cryptocurrency wallet is a digital tool for storing, sending, and receiving cryptocurrencies. It consists of a public key (your wallet address) and a private key (your password to access funds).</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>How do I start investing in cryptocurrency?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Choose a reliable exchange like ChangeNow, create an account, complete verification, deposit funds, and buy cryptocurrencies. Start with small amounts and diversify your investments.</p>
+                </div>
             </div>
         </div>
 
-        <!-- FAQ Item 2 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>What is a blockchain?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>A blockchain is a distributed ledger that records transactions across a network of computers. It's secure, transparent, and immutable, meaning once data is recorded, it cannot be altered retroactively.</p>
+        <!-- Right Column -->
+        <div class="space-y-6">
+            <!-- FAQ Item 5 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>How do I keep my cryptocurrency secure?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Use strong passwords, enable two-factor authentication, store your crypto in reputable wallets (hardware wallets for large amounts), never share your private keys, and be cautious of phishing attempts.</p>
+                </div>
             </div>
-        </div>
 
-        <!-- FAQ Item 3 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>What is a cryptocurrency wallet?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>A cryptocurrency wallet is a digital tool for storing, sending, and receiving cryptocurrencies. It consists of a public key (your wallet address) and a private key (your password to access funds).</p>
+            <!-- FAQ Item 6 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What are the most popular cryptocurrencies?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Popular cryptocurrencies include Bitcoin (BTC), Ethereum (ETH), Binance Coin (BNB), Cardano (ADA), Solana (SOL), Ripple (XRP), and Polkadot (DOT). Each serves different purposes in the crypto ecosystem.</p>
+                </div>
             </div>
-        </div>
 
-        <!-- FAQ Item 4 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>How do I start investing in cryptocurrency?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>Choose a reliable exchange like ChangeNow, create an account, complete verification, deposit funds, and buy cryptocurrencies. Start with small amounts and diversify your investments.</p>
+            <!-- FAQ Item 7 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>Is cryptocurrency legal?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Cryptocurrency legality varies by country. In most developed countries, cryptocurrencies are legal but regulated. It's important to check your local regulations and tax requirements for cryptocurrency transactions.</p>
+                </div>
             </div>
-        </div>
 
-        <!-- FAQ Item 5 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>How do I keep my cryptocurrency secure?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>Use strong passwords, enable two-factor authentication, store your crypto in reputable wallets (hardware wallets for large amounts), never share your private keys, and be cautious of phishing attempts.</p>
-            </div>
-        </div>
-
-        <!-- FAQ Item 6 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>What are the most popular cryptocurrencies?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>Popular cryptocurrencies include Bitcoin (BTC), Ethereum (ETH), Binance Coin (BNB), Cardano (ADA), Solana (SOL), Ripple (XRP), and Polkadot (DOT). Each serves different purposes in the crypto ecosystem.</p>
-            </div>
-        </div>
-
-        <!-- FAQ Item 7 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>Is cryptocurrency legal?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>Cryptocurrency legality varies by country. In most developed countries, cryptocurrencies are legal but regulated. It's important to check your local regulations and tax requirements for cryptocurrency transactions.</p>
-            </div>
-        </div>
-
-        <!-- FAQ Item 8 -->
-        <div class="faq-item border-b border-[#46475d] py-6">
-            <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
-                <span>What makes ChangeNow different from other exchanges?</span>
-                <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
-                <p>ChangeNow offers instant exchanges without registration, competitive rates, 24/7 customer support, and support for 1500+ cryptocurrencies. Our non-custodial service ensures you maintain control of your funds throughout the exchange process.</p>
+            <!-- FAQ Item 8 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What makes ChangeNow different from other exchanges?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>ChangeNow offers instant exchanges without registration, competitive rates, 24/7 customer support, and support for 1500+ cryptocurrencies. Our non-custodial service ensures you maintain control of your funds throughout the exchange process.</p>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </section>
 
         
@@ -7600,90 +7620,166 @@ document.addEventListener('DOMContentLoaded', function() {
     startNotificationCycle();
 });
 	   
-	   // Utility Bar Functionality
+	  // Utility Bar Functionality - Complete Fixed Version
 document.addEventListener('DOMContentLoaded', function() {
     // Google Translate
     const translateButton = document.getElementById('google-translate');
     const translateDropdown = document.getElementById('translate-dropdown');
     
-    translateButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        translateDropdown.classList.toggle('hidden');
-        // Close other dropdowns
-        chatbotPanel.classList.add('hidden');
-    });
-    
-    // Language selection
-    const languageOptions = document.querySelectorAll('.language-option');
-    languageOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            // Simulate Google Translate functionality
-            alert(`Page would be translated to ${this.textContent}`);
-            translateDropdown.classList.add('hidden');
-        });
-    });
-    
-    // Chatbot
+    // Chatbot Elements
     const chatbotButton = document.getElementById('chatbot-button');
     const chatbotPanel = document.getElementById('chatbot-panel');
     
-    chatbotButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        chatbotPanel.classList.toggle('hidden');
-        // Close other dropdowns
-        translateDropdown.classList.add('hidden');
-    });
+    // Telegram
+    const telegramButton = document.getElementById('telegram-button');
     
-    // FAQ functionality
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            const answer = this.nextElementSibling;
-            const isHidden = answer.classList.contains('hidden');
+    // Initialize Google Translate
+    if (translateButton && translateDropdown) {
+        translateButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            translateDropdown.classList.toggle('hidden');
+            // Close other dropdowns
+            if (chatbotPanel) chatbotPanel.classList.add('hidden');
+        });
+        
+        // Language selection
+        const languageOptions = document.querySelectorAll('.language-option');
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                // Simulate Google Translate functionality
+                alert(`Page would be translated to ${this.textContent}`);
+                translateDropdown.classList.add('hidden');
+            });
+        });
+    }
+    
+    // Initialize Chatbot
+    if (chatbotButton && chatbotPanel) {
+        chatbotButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            chatbotPanel.classList.toggle('hidden');
+            // Close other dropdowns
+            if (translateDropdown) translateDropdown.classList.add('hidden');
             
-            // Close all other answers
-            document.querySelectorAll('.faq-answer').forEach(ans => {
-                ans.classList.add('hidden');
+            // Initialize chatbot FAQ when panel opens
+            if (!chatbotPanel.classList.contains('hidden')) {
+                setTimeout(initChatbotFAQ, 50);
+            }
+        });
+        
+        // Initialize chatbot FAQ functionality
+        const initChatbotFAQ = () => {
+            const chatbotFaqQuestions = document.querySelectorAll('#chatbot-panel .faq-question');
+            
+            chatbotFaqQuestions.forEach(question => {
+                // Remove any existing event listeners to prevent duplicates
+                question.replaceWith(question.cloneNode(true));
             });
             
-            // Toggle current answer
-            if (isHidden) {
-                answer.classList.remove('hidden');
+            // Re-select questions after clone
+            const freshChatbotFaqQuestions = document.querySelectorAll('#chatbot-panel .faq-question');
+            
+            freshChatbotFaqQuestions.forEach(question => {
+                question.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Find the answer for this question
+                    const faqItem = this.closest('.faq-item');
+                    const answer = faqItem ? faqItem.querySelector('.faq-answer') : null;
+                    
+                    if (!answer) {
+                        console.log('No answer found for this question');
+                        return;
+                    }
+                    
+                    // Toggle this answer
+                    const isHidden = answer.classList.contains('hidden');
+                    
+                    if (isHidden) {
+                        // Close all other answers first
+                        document.querySelectorAll('#chatbot-panel .faq-answer').forEach(ans => {
+                            ans.classList.add('hidden');
+                        });
+                        // Show this answer
+                        answer.classList.remove('hidden');
+                    } else {
+                        answer.classList.add('hidden');
+                    }
+                });
+            });
+        };
+        
+        // Initialize chatbot FAQ on page load if panel is visible
+        if (!chatbotPanel.classList.contains('hidden')) {
+            initChatbotFAQ();
+        }
+    }
+    
+    // Initialize Telegram
+    if (telegramButton) {
+        telegramButton.addEventListener('click', function() {
+            window.open('https://t.me/ChangeNowSupport', '_blank');
+        });
+    }
+    
+    // Homepage FAQ functionality (separate from chatbot)
+    const homepageFaqQuestions = document.querySelectorAll('section:not(#chatbot-panel) .faq-question');
+    homepageFaqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            if (answer && answer.classList) {
+                const isHidden = answer.classList.contains('hidden');
+                
+                // Close all other answers on homepage
+                document.querySelectorAll('section:not(#chatbot-panel) .faq-answer').forEach(ans => {
+                    if (ans !== answer) {
+                        ans.classList.add('hidden');
+                    }
+                });
+                
+                // Toggle current answer
+                if (isHidden) {
+                    answer.classList.remove('hidden');
+                } else {
+                    answer.classList.add('hidden');
+                }
             }
         });
     });
     
-    // Telegram
-    const telegramButton = document.getElementById('telegram-button');
-    telegramButton.addEventListener('click', function() {
-        window.open('https://t.me/ChangeNowSupport', '_blank');
-    });
-    
     // Close dropdowns when clicking outside
     document.addEventListener('click', function() {
-        translateDropdown.classList.add('hidden');
-        chatbotPanel.classList.add('hidden');
+        if (translateDropdown) translateDropdown.classList.add('hidden');
+        if (chatbotPanel) chatbotPanel.classList.add('hidden');
     });
     
     // Prevent dropdowns from closing when clicking inside them
-    translateDropdown.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
+    if (translateDropdown) {
+        translateDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
     
-    chatbotPanel.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
+    if (chatbotPanel) {
+        chatbotPanel.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
     
     // Add attention animation to chatbot icon
-    setTimeout(() => {
-        chatbotButton.classList.add('attention-pulse');
-        
-        // Stop animation after 3 cycles
+    if (chatbotButton) {
         setTimeout(() => {
-            chatbotButton.classList.remove('attention-pulse');
-        }, 6000);
-    }, 2000);
+            chatbotButton.classList.add('attention-pulse');
+            
+            // Stop animation after 3 cycles
+            setTimeout(() => {
+                chatbotButton.classList.remove('attention-pulse');
+            }, 6000);
+        }, 2000);
+    }
+    
+    console.log('Utility bar initialized successfully');
 });
 	   
 	   
