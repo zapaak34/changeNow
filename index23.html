@@ -1579,7 +1579,72 @@
     border-color: #0088cc;
     background: rgba(0, 136, 204, 0.1) !important;
 }
-		
+	
+	
+	/* Notification Box Styles */
+#notification-box {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
+}
+
+#notification-box.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Ensure notification stays on top of other content */
+.z-50 {
+    z-index: 50;
+}
+		/* Clean Notification Styles */
+#notification-box {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Color classes with better contrast */
+.notification-deposit {
+    color: #00ff88 !important;
+}
+
+.notification-withdrawal {
+    color: #ff4444 !important;
+}
+
+.notification-exchange {
+    color: #4488ff !important;
+}
+
+/* Text styling for better readability */
+#notification-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+#notification-message {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Ensure text remains visible */
+#notification-box.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-20px);
+}
+
+#notification-box {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s ease;
+}
+
+.z-50 {
+    z-index: 50;
+}
 		
     </style>
 </head>
@@ -1715,6 +1780,79 @@
     </div>
 </nav>
 
+ <!-- Ticker Widget -->
+        <div class="mt-12 px-4">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                {
+                    "symbols": [
+                        {
+                            "proName": "FX_IDC:EURUSD",
+                            "title": "EUR to USD"
+                        },
+                        {
+                            "proName": "BITSTAMP:BTCUSD",
+                            "title": "Bitcoin"
+                        },
+                        {
+                            "proName": "BITSTAMP:ETHUSD",
+                            "title": "Ethereum"
+                        },
+                        {
+                            "proName": "BINANCE:SOLUSDT",
+                            "title": "Sol"
+                        },
+                        {
+                            "proName": "BINANCE:XRPUSDT",
+                            "title": "xrp"
+                        },
+                        {
+                            "proName": "BINANCE:DOGEUSDT",
+                            "title": "Doge"
+                        },
+                        {
+                            "proName": "BINANCE:ADAUSDT",
+                            "title": "Ada"
+                        },
+                        {
+                            "proName": "BINANCE:BNBUSDT",
+                            "title": "Bnb"
+                        },
+                        {
+                            "proName": "BINANCE:LINKUSDT",
+                            "title": "Link"
+                        },
+                        {
+                            "proName": "BINANCE:AVAXUSDT",
+                            "title": "Avax"
+                        },
+                        {
+                            "proName": "BINANCE:SUIUSDT",
+                            "title": "sui"
+                        },
+                        {
+                            "proName": "BINANCE:ZECUSDT",
+                            "title": "Zcash"
+                        },
+                        {
+                            "proName": "BINANCE:CAKEUSDT",
+                            "title": "Cake"
+                        }
+                    ],
+                    "colorTheme": "dark",
+                    "locale": "en",
+                    "largeChartUrl": "",
+                    "isTransparent": false,
+                    "showSymbolLogo": true,
+                    "displayMode": "adaptive"
+                }
+                </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
     <!-- Login Overlay -->
     <div class="login-overlay" id="login-overlay">
         <div class="login-form">
@@ -1790,78 +1928,6 @@
 
     <!-- Home Section -->
     <section id="home" class="view-section active-section">
-        <!-- Ticker Widget -->
-        <div class="mt-12 px-4">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-                {
-                    "symbols": [
-                        {
-                            "proName": "FX_IDC:EURUSD",
-                            "title": "EUR to USD"
-                        },
-                        {
-                            "proName": "BITSTAMP:BTCUSD",
-                            "title": "Bitcoin"
-                        },
-                        {
-                            "proName": "BITSTAMP:ETHUSD",
-                            "title": "Ethereum"
-                        },
-                        {
-                            "proName": "BINANCE:SOLUSDT",
-                            "title": "Sol"
-                        },
-                        {
-                            "proName": "BINANCE:XRPUSDT",
-                            "title": "xrp"
-                        },
-                        {
-                            "proName": "BINANCE:DOGEUSDT",
-                            "title": "Doge"
-                        },
-                        {
-                            "proName": "BINANCE:ADAUSDT",
-                            "title": "Ada"
-                        },
-                        {
-                            "proName": "BINANCE:BNBUSDT",
-                            "title": "Bnb"
-                        },
-                        {
-                            "proName": "BINANCE:LINKUSDT",
-                            "title": "Link"
-                        },
-                        {
-                            "proName": "BINANCE:AVAXUSDT",
-                            "title": "Avax"
-                        },
-                        {
-                            "proName": "BINANCE:SUIUSDT",
-                            "title": "sui"
-                        },
-                        {
-                            "proName": "BINANCE:ZECUSDT",
-                            "title": "Zcash"
-                        },
-                        {
-                            "proName": "BINANCE:CAKEUSDT",
-                            "title": "Cake"
-                        }
-                    ],
-                    "colorTheme": "dark",
-                    "locale": "en",
-                    "largeChartUrl": "",
-                    "isTransparent": false,
-                    "showSymbolLogo": true,
-                    "displayMode": "adaptive"
-                }
-                </script>
-            </div>
-            <!-- TradingView Widget END -->
-        </div>
 
         <!-- Hero Section -->
         <section class="mt-16 px-4 md:px-16">
@@ -5486,7 +5552,15 @@
             </div>
         </footer>
     
-    
+   <!-- Fixed Notification Box -->
+<div id="notification-box" class="fixed bottom-4 left-4 w-[339px] h-[123px] bg-black bg-opacity-70 rounded-lg border border-gray-700 p-4 hidden z-50 backdrop-blur-sm">
+    <div class="flex items-center justify-between mb-3">
+        <h3 id="notification-title" class="font-bold text-lg"></h3>
+        <div id="notification-indicator" class="w-3 h-3 rounded-full"></div>
+    </div>
+    <p id="notification-message" class="font-medium text-base leading-tight"></p>
+</div>
+
 
    <script>
 // ===== CONFIGURATION CONSTANTS =====
@@ -7246,6 +7320,138 @@ function saveField(field) {
     // Save all changes
     saveCompanyChanges();
 }
+	   
+	   
+	// Notification configuration
+const notificationConfig = {
+    // Names pool
+    names: [
+        "Mike Andrew", "Sarah Johnson", "David Wilson", "Emma Thompson", "James Rodriguez",
+        "Olivia Martinez", "Michael Brown", "Sophia Garcia", "Robert Taylor", "Isabella Lee",
+        "William Anderson", "Mia Thomas", "Christopher Jackson", "Charlotte White", "Daniel Harris",
+        "Amelia Martin", "Matthew Clark", "Harper Lewis", "Joseph Walker", "Evelyn Hall",
+        "Joshua Young", "Abigail Allen", "Andrew King", "Emily Wright", "Ryan Scott",
+        "Elizabeth Green", "Kevin Adams", "Avery Nelson", "Brian Baker", "Ella Carter"
+    ],
+    
+    // Cities and countries pool
+    locations: [
+        {city: "Miami", country: "USA"},
+        {city: "New York", country: "USA"},
+        {city: "London", country: "UK"},
+        {city: "Toronto", country: "Canada"},
+        {city: "Sydney", country: "Australia"},
+        {city: "Berlin", country: "Germany"},
+        {city: "Paris", country: "France"},
+        {city: "Tokyo", country: "Japan"},
+        {city: "Singapore", country: "Singapore"},
+        {city: "Dubai", country: "UAE"},
+        {city: "Mumbai", country: "India"},
+        {city: "São Paulo", country: "Brazil"},
+        {city: "Mexico City", country: "Mexico"},
+        {city: "Amsterdam", country: "Netherlands"},
+        {city: "Seoul", country: "South Korea"},
+        {city: "Hong Kong", country: "China"},
+        {city: "Bangkok", country: "Thailand"},
+        {city: "Rome", country: "Italy"},
+        {city: "Madrid", country: "Spain"},
+        {city: "Vancouver", country: "Canada"},
+        {city: "Los Angeles", country: "USA"},
+        {city: "Chicago", country: "USA"},
+        {city: "Melbourne", country: "Australia"},
+        {city: "Auckland", country: "New Zealand"},
+        {city: "Stockholm", country: "Sweden"},
+        {city: "Oslo", country: "Norway"},
+        {city: "Copenhagen", country: "Denmark"},
+        {city: "Zurich", country: "Switzerland"},
+        {city: "Vienna", country: "Austria"},
+        {city: "Brussels", country: "Belgium"}
+    ],
+    
+    // Transaction types with brighter colors for better visibility
+    types: [
+        {name: "Deposit", color: "#00ff88", title: "Recent Deposit", cssClass: "notification-deposit"},
+        {name: "Withdrawal", color: "#ff4444", title: "Recent Withdrawal", cssClass: "notification-withdrawal"},
+        {name: "Exchange", color: "#4488ff", title: "Recent Exchange", cssClass: "notification-exchange"}
+    ]
+};
+
+// Generate random amount with probability distribution
+function generateRandomAmount() {
+    const random = Math.random();
+    
+    // 70% probability for amounts between $1,500 and $100,000
+    if (random <= 0.7) {
+        return (Math.random() * (100000 - 1500) + 1500).toFixed(2);
+    } 
+    // 30% probability for amounts between $100,000 and $305,000
+    else {
+        return (Math.random() * (305000 - 100000) + 100000).toFixed(2);
+    }
+}
+
+// Generate random notification
+function generateNotification() {
+    const randomName = notificationConfig.names[Math.floor(Math.random() * notificationConfig.names.length)];
+    const randomLocation = notificationConfig.locations[Math.floor(Math.random() * notificationConfig.locations.length)];
+    const randomType = notificationConfig.types[Math.floor(Math.random() * notificationConfig.types.length)];
+    const amount = generateRandomAmount();
+    
+    const action = randomType.name.toLowerCase() === "withdrawal" ? "withdrew" : 
+                   randomType.name.toLowerCase() === "deposit" ? "deposited" : "exchanged";
+    
+    return {
+        title: randomType.title,
+        message: `${randomName} from ${randomLocation.city}, ${randomLocation.country} ${action} sum of $${amount}`,
+        color: randomType.color,
+        cssClass: randomType.cssClass
+    };
+}
+
+// Show notification
+function showNotification() {
+    const notification = generateNotification();
+    const notificationBox = document.getElementById('notification-box');
+    const notificationTitle = document.getElementById('notification-title');
+    const notificationMessage = document.getElementById('notification-message');
+    const notificationIndicator = document.getElementById('notification-indicator');
+    
+    // Remove previous color classes
+    notificationBox.classList.remove('notification-deposit', 'notification-withdrawal', 'notification-exchange');
+    
+    // Add current transaction type class
+    notificationBox.classList.add(notification.cssClass);
+    
+    // Update notification content
+    notificationTitle.textContent = notification.title;
+    notificationMessage.textContent = notification.message;
+    notificationIndicator.style.backgroundColor = notification.color;
+    
+    // Show notification with animation
+    notificationBox.classList.remove('hidden');
+    
+    // Hide after 4 seconds
+    setTimeout(() => {
+        notificationBox.classList.add('hidden');
+    }, 4000);
+}
+
+// Start notification cycle
+function startNotificationCycle() {
+    // Show first notification after 2 seconds
+    setTimeout(showNotification, 2000);
+    
+    // Set up interval for subsequent notifications
+    setInterval(() => {
+        const randomInterval = Math.random() * (15000 - 5000) + 5000; // 5-15 seconds
+        setTimeout(showNotification, randomInterval);
+    }, 15000); // Check every 15 seconds for new notification
+}
+
+// Initialize notifications when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    startNotificationCycle();
+});
 	   
 	   
 </script>
