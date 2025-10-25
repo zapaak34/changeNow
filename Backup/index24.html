@@ -1406,7 +1406,7 @@
     }
 }
 		
-		/* FAQ Section Styles */
+/* FAQ Section Styles - Enhanced */
 .faq-item {
     transition: all 0.3s ease;
 }
@@ -1414,6 +1414,7 @@
 .faq-question {
     padding: 8px 0;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .faq-question:hover {
@@ -1426,25 +1427,14 @@
 
 .faq-question.active svg {
     transform: rotate(180deg);
+    transition: transform 0.3s ease;
 }
 
 .faq-answer {
     overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
     max-height: 0;
     opacity: 0;
-}
-
-.faq-answer.open {
-    max-height: 500px;
-    opacity: 1;
-}
-
-/* Smooth animation for FAQ answers */
-.faq-answer {
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
 }
 
 .faq-answer.open {
@@ -1696,7 +1686,9 @@
 #chatbot-panel .faq-answer {
     margin-top: 8px;
     margin-bottom: 8px;
-}	
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+	
 	
 	
 		
@@ -7781,6 +7773,98 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Utility bar initialized successfully');
 });
+	   
+	   
+	   // FAQ Functionality
+function initializeFAQ() {
+    // FAQ toggle functionality
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            const isOpen = answer.classList.contains('open');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                ans.classList.remove('open');
+                ans.style.maxHeight = '0';
+                ans.style.opacity = '0';
+            });
+            
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.querySelector('svg').style.transform = 'rotate(0deg)';
+            });
+            
+            // Toggle current FAQ
+            if (!isOpen) {
+                this.classList.add('active');
+                this.querySelector('svg').style.transform = 'rotate(180deg)';
+                answer.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
+            }
+        });
+    });
+}
+
+// Chatbot FAQ Functionality
+function initializeChatbotFAQ() {
+    // Chatbot FAQ toggle functionality
+    const chatbotFaqQuestions = document.querySelectorAll('#chatbot-panel .faq-question');
+    
+    chatbotFaqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            const isOpen = answer.classList.contains('open');
+            
+            // Close all other FAQs in chatbot
+            document.querySelectorAll('#chatbot-panel .faq-answer').forEach(ans => {
+                ans.classList.remove('open');
+                ans.style.maxHeight = '0';
+                ans.style.opacity = '0';
+            });
+            
+            document.querySelectorAll('#chatbot-panel .faq-question').forEach(q => {
+                q.classList.remove('active');
+                const arrow = q.querySelector('span:last-child');
+                if (arrow) {
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            // Toggle current FAQ
+            if (!isOpen) {
+                this.classList.add('active');
+                const arrow = this.querySelector('span:last-child');
+                if (arrow) {
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+                answer.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
+            }
+        });
+    });
+}
+
+// Initialize FAQ functionality when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFAQ();
+    initializeChatbotFAQ();
+});
+
+// Re-initialize FAQ when switching sections (if using SPA navigation)
+function showSection(sectionId) {
+    // Your existing showSection code...
+    
+    // Re-initialize FAQ after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        initializeFAQ();
+        initializeChatbotFAQ();
+    }, 100);
+}
 	   
 	   
 </script>

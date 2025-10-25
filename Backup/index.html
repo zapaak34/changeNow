@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChangeNow | Crypto Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800&family=Inter:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#2b2b36] text-white">
+
+    <!-- Enhanced Navigation Bar -->
+<nav class="navbar flex justify-between items-center py-4 px-4 lg:px-8 mx-2 lg:mx-4 mt-4 rounded-full border-2 border-[#64748b] bg-[#2b2b36] sticky top-4 z-50">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+        <div class="flex flex-col cursor-pointer" onclick="showSection('home')">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMzQzNDQzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+Q2hhbmdlTm93PC90ZXh0Pjwvc3ZnPg==" alt="ChangeNow Logo" class="h-8 w-auto">
+        </div>
+    </div>
+    
+    <!-- Desktop Navigation Links - Hidden on mobile/tablet -->
+    <div class="hidden lg:flex space-x-6 xl:space-x-8">
+        <a href="#" class="nav-link text-white text-lg" onclick="showSection('home')">Home</a>
+        <a href="#" class="nav-link text-white text-lg" onclick="showSection('about')">About</a>
+        
+        <div class="services-container relative">
+            <div class="flex items-center cursor-pointer">
+                <span class="nav-link text-white text-lg">Services</span>
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="services-dropdown">
+                <a href="#" onclick="scrollToBuySection()">Buy Crypto</a>
+                <a href="#" onclick="scrollToBuySection()">Sell Crypto</a>
+            </div>
+        </div>
+        
+        <a href="#" class="nav-link text-white text-lg" onclick="showSection('tools')">Tools</a>
+        <a href="#" class="nav-link text-white text-lg" onclick="showSection('licenses')">Licenses</a>
+        <a href="#" class="nav-link text-white text-lg" onclick="showSection('contact')">Contact</a>
+    </div>
+    
+    <!-- User area - changes based on login status -->
+<div class="flex items-center space-x-4">
+    <!-- When not logged in -->
+    <button class="connect-btn bg-[#00c26f] text-white px-4 lg:px-6 py-2 rounded-full font-medium text-sm lg:text-lg hover:bg-[#00a85f] transition" id="connect-btn" onclick="showLoginOverlay()">
+        Connect
+    </button> 
+    
+    <!-- User Avatar (shown when logged in - starts hidden) -->
+<div class="user-avatar hidden" id="user-avatar" onclick="toggleUserDropdown()">
+    <i class="fas fa-user text-white"></i>
+</div>
+
+<!-- User Dropdown Menu (starts hidden) -->
+<div id="user-container" class="user-dropdown hidden">
+    <div class="user-dropdown-content">
+        <div class="user-info">
+            <div class="user-avatar-small">
+                <i class="fas fa-user text-white"></i>
+            </div>
+            <div class="user-details">
+                <div class="user-name" id="user-name">User Name</div>
+                <div class="user-email" id="user-email">user@example.com</div>
+            </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-menu">
+            <a href="javascript:void(0)" onclick="handleUserMenuClick('dashboard')" class="dropdown-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="javascript:void(0)" onclick="handleUserMenuClick('admin')" class="dropdown-item admin-only" id="admin-menu-item" style="display: none;">
+                <i class="fas fa-cog"></i>
+                Admin Panel
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0)" onclick="logout()" class="dropdown-item logout-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+</div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="lg:hidden text-white focus:outline-none" id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+</div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div class="lg:hidden absolute top-full left-0 right-0 bg-[#343443] border border-[#46475d] rounded-lg mt-2 py-2 mobile-menu hidden" id="mobile-menu">
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="showSection('home'); closeMobileMenu()">Home</a>
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="showSection('about'); closeMobileMenu()">About</a>
+        
+        <!-- Mobile Services Submenu -->
+        <div class="px-4 py-3 text-white hover:bg-[#3e3e59] transition cursor-pointer" onclick="toggleMobileSubmenu('services-submenu')" aria-expanded="false" aria-controls="services-submenu">
+            <div class="flex justify-between items-center">
+                <span>Services</span>
+                <svg class="w-4 h-4 transform transition-transform" id="services-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="hidden bg-[#2b2b36] pl-6" id="services-submenu">
+            <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="scrollToBuySection(); closeMobileMenu()">Buy Crypto</a>
+            <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="scrollToBuySection(); closeMobileMenu()">Sell Crypto</a>
+        </div>
+        
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="showSection('tools'); closeMobileMenu()">Tools</a>
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="showSection('licenses'); closeMobileMenu()">Licenses</a>
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition" onclick="showSection('contact'); closeMobileMenu()">Contact</a>
+        
+        <!-- Mobile Dashboard/Admin Links -->
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition hidden" id="mobile-dashboard-nav" onclick="showSection('dashboard'); closeMobileMenu()">Dashboard</a>
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition hidden" id="mobile-admin-nav" onclick="showSection('admin'); closeMobileMenu()">Admin</a>
+        <a href="#" class="block px-4 py-3 text-white hover:bg-[#3e3e59] transition hidden" id="mobile-logout-nav" onclick="logout(); closeMobileMenu()">Logout</a>
+    </div>
+</nav>
+
+ <!-- Ticker Widget -->
+        <div class="mt-12 px-4">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                {
+                    "symbols": [
+                        {
+                            "proName": "FX_IDC:EURUSD",
+                            "title": "EUR to USD"
+                        },
+                        {
+                            "proName": "BITSTAMP:BTCUSD",
+                            "title": "Bitcoin"
+                        },
+                        {
+                            "proName": "BITSTAMP:ETHUSD",
+                            "title": "Ethereum"
+                        },
+                        {
+                            "proName": "BINANCE:SOLUSDT",
+                            "title": "Sol"
+                        },
+                        {
+                            "proName": "BINANCE:XRPUSDT",
+                            "title": "xrp"
+                        },
+                        {
+                            "proName": "BINANCE:DOGEUSDT",
+                            "title": "Doge"
+                        },
+                        {
+                            "proName": "BINANCE:ADAUSDT",
+                            "title": "Ada"
+                        },
+                        {
+                            "proName": "BINANCE:BNBUSDT",
+                            "title": "Bnb"
+                        },
+                        {
+                            "proName": "BINANCE:LINKUSDT",
+                            "title": "Link"
+                        },
+                        {
+                            "proName": "BINANCE:AVAXUSDT",
+                            "title": "Avax"
+                        },
+                        {
+                            "proName": "BINANCE:SUIUSDT",
+                            "title": "sui"
+                        },
+                        {
+                            "proName": "BINANCE:ZECUSDT",
+                            "title": "Zcash"
+                        },
+                        {
+                            "proName": "BINANCE:CAKEUSDT",
+                            "title": "Cake"
+                        }
+                    ],
+                    "colorTheme": "dark",
+                    "locale": "en",
+                    "largeChartUrl": "",
+                    "isTransparent": false,
+                    "showSymbolLogo": true,
+                    "displayMode": "adaptive"
+                }
+                </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-form">
+            <button class="close-btn" onclick="closeLoginOverlay()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="login-tabs">
+                <div class="login-tab active" onclick="showLoginTab('login')">Login</div>
+                <div class="login-tab" onclick="showLoginTab('signup')">Sign Up</div>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="login-content active" id="login-content">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-primary" onclick="login()">Login</button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="text-[#00c26f]" onclick="showLoginTab('reset')">Forgot Password?</a>
+                </div>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="login-content" id="signup-content">
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" placeholder="Confirm your password">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-primary" onclick="signup()">Sign Up</button>
+                </div>
+            </div>
+            
+            <!-- Reset Password Form -->
+            <div class="login-content" id="reset-content">
+                <div class="form-group">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-primary" onclick="resetPassword()">Reset Password</button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="text-[#00c26f]" onclick="showLoginTab('login')">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home" class="view-section active-section">
+        <!-- Hero Section -->
+        <section class="mt-16 px-4 md:px-16">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold gradient-text leading-tight">
+                        Explore The Largest Crypto Marketplaces
+                    </h1>
+                    <p class="text-[#a5a3a8] text-xl mt-6">
+                        Buy, sell, trade cryptocurrency easily and securely
+                    </p>
+                    
+                    <div class="flex space-x-4 mt-8">
+                        <button class="bg-[#00b67a] text-white px-6 py-3 rounded-md font-medium text-lg hover:bg-[#00a85f] transition" onclick="showLoginOverlay()">
+                            Connect Wallet
+                        </button>
+                        <button class="border-2 border-[#3c6dd9] text-white px-6 py-3 rounded-md font-medium text-lg hover:bg-[#3c6dd9] hover:bg-opacity-10 transition">
+                            Learn More
+                        </button>
+                    </div>
+<div class="flex flex-col items-start mt-12">
+    <!-- Original Members Section -->
+    <div class="flex items-center mb-4">
+        <span class="text-white text-2xl">Our Members</span>
+       <div class="flex -space-x-3 ml-8 relative">
+    <!-- Member 1 -->
+    <div class="relative member-avatar">
+        <img src="images/members/avatar.png" alt="Member" class="w-12 h-12 rounded-full border-2 border-[#3c6dd9] object-cover">
+        <div class="plus-one-animation absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transform scale-0 transition-all duration-300">+1</div>
+    </div>
+    
+    <!-- Member 2 -->
+    <div class="relative member-avatar">
+        <img src="images/members/avatar1.png" alt="Member" class="w-12 h-12 rounded-full border-2 border-[#3c6dd9] object-cover">
+        <div class="plus-one-animation absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transform scale-0 transition-all duration-300">+1</div>
+    </div>
+    
+    <!-- Member 3 -->
+    <div class="relative member-avatar">
+        <img src="images/members/avatar2.png" alt="Member" class="w-12 h-12 rounded-full border-2 border-[#3c6dd9] object-cover">
+        <div class="plus-one-animation absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transform scale-0 transition-all duration-300">+1</div>
+    </div>
+    
+    <!-- Member 4 -->
+    <div class="relative member-avatar">
+        <img src="images/members/avatar4.png" alt="Member" class="w-12 h-12 rounded-full border-2 border-[#3c6dd9] object-cover">
+        <div class="plus-one-animation absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transform scale-0 transition-all duration-300">+1</div>
+    </div>
+       </div> 
+    </div>
+    
+    <!-- Trustpilot Logo Only -->
+    <div class="relative group">
+        <a 
+            href="https://www.trustpilot.com/review/changenow.io?utm_medium=trustbox&utm_source=Mini" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="block transition-all duration-300 hover:scale-105"
+        >
+            <img 
+                src="images/trustpilot.png" 
+                alt="Trustpilot Reviews - 4.5/5 Stars" 
+                class="h-20 w-auto border border-[#3c6dd9] rounded-lg"
+            >
+        </a>
+        
+        <!-- Tooltip -->
+        <div class="absolute bottom-full left-0 mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50">
+            <div class="flex items-center space-x-2">
+                <span class="text-yellow-400 text-base">★★★★★</span>
+                <span class="text-white">4.5 out of 5 stars on Trustpilot</span>
+            </div>
+            <div class="absolute top-full left-4 border-4 border-transparent border-t-black"></div>
+        </div>
+    </div>
+</div>
+                </div>
+                
+                <div class="md:w-1/2 bg-[#343443] rounded-xl p-6 exchange-input" id="exchange-container">
+                    <div class="flex border-b border-[#46475d]">
+                        <button class="exchange-tab flex-1 py-4 text-center font-medium rounded-tl-lg rounded-tr-lg active-tab" data-tab="exchange">
+                            Exchange Crypto
+                        </button>
+                        <button class="exchange-tab flex-1 py-4 text-center font-medium rounded-tl-lg rounded-tr-lg text-[#aeb0bd] bg-[#30303e]" data-tab="buy-sell">
+                            Buy/Sell Crypto
+                        </button>
+                    </div>
+                    
+                    <!-- Exchange Tab Content -->
+                    <div id="exchange-tab-content" class="tab-content active mt-6">
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">You Send</label>
+                            <div class="flex mt-2">
+                                <div class="flex-1 exchange-input rounded-l-lg p-4">
+                                    <input type="text" id="send-amount" value="1" class="w-full bg-transparent text-white text-2xl outline-none">
+                                </div>
+                                <div class="exchange-button rounded-r-lg p-4 flex items-center w-40 cursor-pointer" onclick="openCurrencyModal('send')">
+                                    <div class="w-6 h-6 bg-yellow-500 rounded-full mr-2"></div>
+                                    <span class="text-white" id="send-currency">BTC</span>
+                                    <svg class="w-4 h-4 ml-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center my-4">
+                            <button class="bg-[#3e3e59] p-2 rounded-full" onclick="swapCurrencies()">
+                                <i class="fas fa-exchange-alt text-white"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">You Get</label>
+                            <div class="flex mt-2">
+                                <div class="flex-1 exchange-input rounded-l-lg p-4">
+                                    <input type="text" id="receive-amount" value="26.67586" class="w-full bg-transparent text-white text-2xl outline-none">
+                                </div>
+                                <div class="exchange-button rounded-r-lg p-4 flex items-center w-40 cursor-pointer" onclick="openCurrencyModal('receive')">
+                                    <div class="w-6 h-6 bg-blue-500 rounded-full mr-2"></div>
+                                    <span class="text-white" id="receive-currency">ETH</span>
+                                    <svg class="w-4 h-4 ml-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center my-4 text-sm">
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-[#3d3d58] rounded-full mr-2"></div>
+                                <span class="text-white border-b border-dashed border-[#00b67a]">No Hidden Fees</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-[#3d3d58] rounded-full mr-2"></div>
+                                <span class="text-white border-b border-dashed border-[#00b67a]">Estimated Rate</span>
+                            </div>
+                            <div class="text-white">1 BTC = 26.67 ETH</div>
+                        </div>
+                        
+                        <button class="w-full bg-[#00c26f] text-white py-4 rounded-lg font-bold text-lg mt-6 hover:bg-[#00a85f] transition" onclick="openExchangeModal()">
+                            Exchange Now
+                        </button>
+                    </div>
+                    
+                    <!-- Buy/Sell Tab Content -->
+                    <div id="buy-sell-tab-content" class="tab-content mt-6">
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">Select Currency</label>
+                            <select class="w-full exchange-input p-3 rounded-lg mt-2 text-white">
+                                <option>Bitcoin (BTC)</option>
+                                <option>Ethereum (ETH)</option>
+                                <option>Cardano (ADA)</option>
+                                <option>Solana (SOL)</option>
+                                <option>Binance Coin (BNB)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">Payment Method</label>
+                            <select class="w-full exchange-input p-3 rounded-lg mt-2 text-white">
+                                <option>Credit/Debit Card</option>
+                                <option>Bank Transfer</option>
+                                <option>PayPal</option>
+                                <option>Other Cryptocurrency</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">Amount</label>
+                            <div class="flex mt-2">
+                                <div class="flex-1 exchange-input rounded-l-lg p-4">
+                                    <input type="text" value="100" class="w-full bg-transparent text-white text-2xl outline-none">
+                                </div>
+                                <div class="exchange-button rounded-r-lg p-4 flex items-center">
+                                    <span class="text-white">USD</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="text-[#aeb0bd] text-sm">You Receive</label>
+                            <div class="exchange-input p-4 rounded-lg mt-2">
+                                <div class="text-white text-2xl">0.0028 BTC</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button class="flex-1 bg-[#00c26f] text-white py-4 rounded-lg font-bold text-lg mt-2 hover:bg-[#00a85f] transition" onclick="openBuyModal()">
+                                Buy Now
+                            </button>
+                            <button class="flex-1 bg-[#ff6654] text-white py-4 rounded-lg font-bold text-lg mt-2 hover:bg-[#e55a4a] transition" onclick="openSellModal()">
+                                Sell Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mt-24 px-4 md:px-16">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-medium text-white">Secure & Private</h2>
+                <p class="text-[#a5a3a8] text-xl mt-4 max-w-2xl mx-auto">
+                    7 dedicated support team members ready to assist you 24/7
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card rounded-lg p-8 text-center relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-[#fdb730] opacity-20 glow-orange"></div>
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <div class="w-16 h-16 bg-[#f7931a] rounded-full relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-white/50 to-black/50 mix-blend-soft-light rounded-full"></div>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white mb-4">Buy Crypto</h3>
+                    <p class="text-[#898ca9]">
+                        Invest in crypto anytime, anywhere with our safe, secure, and easy-to-use online platform
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card rounded-lg p-8 text-center relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-[#955cef] opacity-20 glow-purple"></div>
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <div class="w-16 h-16 bg-purple-500 rounded-lg"></div>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white mb-4">Fast Transaction</h3>
+                    <p class="text-[#898ca9]">
+                        Invest in cryptocurrency with our secure and easy-to-use platform with 24/7 access to full service customer support
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card rounded-lg p-8 text-center relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-[#ed261d] opacity-20 glow-red"></div>
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <div class="w-16 h-16 bg-red-500 rounded-lg"></div>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white mb-4">Secure</h3>
+                    <p class="text-[#898ca9]">
+                        Gain access to a variety of digital assets with just a few clicks. Our intuitive platform makes it easy to buy, sell, and store your cryptocurrency
+                    </p>
+                </div>
+            </div>
+        </section>
+		
+		<!-- 24/7 Customer Support Section -->
+<section class="py-16">
+    <div class="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-20 px-4">
+        <!-- Content Section -->
+        <div class="max-w-[590px] flex flex-col gap-7">
+            <h1 class="text-5xl lg:text-6xl font-medium lowercase gradient-text leading-none">
+                24/7 access to customer support
+            </h1>
+            
+            <p class="text-2xl text-[#a5a3a8] leading-[134.023%]">
+                Invest in digital assets with peace of mind. Our secure platform offers industry leading security to protect your funds
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 mt-4">
+    <!-- WhatsApp Button -->
+    <a id="whatsapp-btn" href="#" target="_blank" class="cta-button flex items-center justify-center gap-2 px-5 py-3 text-xl border-2 border-[#3c6dd9] text-white rounded-lg transition-all hover:bg-[#3c6dd9] hover:bg-opacity-20 hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        WhatsApp
+    </a>
+    
+    <!-- Telegram Button -->
+    <a id="telegram-btn" href="#" target="_blank" class="cta-button flex items-center justify-center gap-2 px-5 py-3 text-xl border-2 border-[#3c6dd9] text-white rounded-lg transition-all hover:bg-[#3c6dd9] hover:bg-opacity-20 hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m22 2-7 20-4-9-9-4 20-7z"></path>
+        </svg>
+        Telegram
+    </a>
+</div>
+        </div>
+        
+        <!-- Image/Graphics Area -->
+        <div class="max-w-[590px] w-full h-[400px] lg:h-[513px] purple-blue-gradient rounded-lg flex items-center justify-center mt-8 lg:mt-0">
+            <div class="text-center p-8">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#c7d7ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <p class="text-[#c7d7ff] mt-4 text-lg">Customer Service</p>
+            
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="py-4 bg-gray-900">
+    <div class="max-w-[1440px] mx-auto px-4">
+        <h2 class="text-3xl font-bold text-white text-center mb-8">Our Trusted Partners</h2>
+        
+        <div class="partners-section">
+            <div class="partners-logos-container overflow-hidden relative">
+                <div class="scroll-container flex space-x-8 py-4" id="partnersScroll">
+                    <!-- Partner logos with local SVG files -->
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/exodus.svg" alt="Exodus" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/now-payments.svg" alt="NOW Payments" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer dofollow" class="block">
+                            <img src="images/partners/coinrabbit.svg" alt="CoinRabbit" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/tangem.svg" alt="Tangem" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/guarda.svg" alt="Guarda" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/cakewallet.svg" alt="Cake Wallet" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/rubic.svg" alt="Rubic" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/edge.svg" alt="Edge" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/trezor.svg" alt="Trezor" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/trustee.svg" alt="Trustee" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/bitcoin.svg" alt="Bitcoin" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/houdini.svg" alt="Houdini Swap" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/guardarian.svg" alt="Guardarian" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer dofollow" class="block">
+                            <img src="images/partners/swapzone.svg" alt="SwapZone" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/localcoinswap.svg" alt="LocalCoinSwap" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                    
+                    <div class="partner-item flex-shrink-0">
+                        <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="block">
+                            <img src="images/partners/now-wallet.svg" alt="NOWWallet" class="partner-logo h-12 w-auto" decoding="async">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Buy Crypto Section -->
+<section class="py-4">
+    <div class="container mx-auto">
+        <div class="main-page-section main-page-section_reverse flex flex-col lg:flex-row items-center">
+            <div class="main-page-section__first-column lg:w-1/2">
+                <picture>
+                    <source type="image/png" srcset="images/by-crypto.png 1x, /images/by-crypto-2x.png 2x" media="(min-width: 992px)">
+                    <img src="images/by-crypto.png" srcset="images/by-crypto.png 1x, images/by-crypto.png 2x" alt="Buy crypto with fiat" decoding="async" loading="lazy" class="w-full">
+                </picture>
+            </div>
+            <div class="main-page-section__second-column lg:w-1/2 mt-8 lg:mt-0 lg:pl-12">
+                <div class="main-page__content">
+                    <h2 class="main-page__content-title text-4xl font-bold text-white mb-4">Buy crypto with fiat</h2>
+                    <p class="main-page__content-text text-xl text-[#a5a3a8] mb-6">
+                        On ChangeNOW, you can buy any crypto with more than 50 fiat currencies using your Visa or MasterCard
+                    </p>
+                    <div class="payment-systems_big payment-systems flex flex-wrap gap-4 mb-6">
+                        <img class="payment-systems--image h-8" src="images/fiat/visa-white.svg" alt="Visa" decoding="async" loading="lazy">
+                        <img class="payment-systems--image h-8" src="images/fiat/master-card-white.svg" alt="MasterCard" decoding="async" loading="lazy">
+                        <img class="payment-systems--image h-8" src="images/fiat/sepa-white.svg" alt="SEPA" decoding="async" loading="lazy">
+						<img class="payment-systems--image h-8" src="images/fiat/apple-pay-white.svg" alt="apple" decoding="async" loading="lazy">
+						<img class="payment-systems--image h-8" src="images/fiat/g-pay-white.svg" alt="gpay" decoding="async" loading="lazy">
+						<img class="payment-systems--image h-8" src="images/fiat/revolut-white.svg" alt="revolut" decoding="async" loading="lazy">
+                    </div>
+                    <a href="#" class="custom-link main-page__content-link inline-flex items-center px-6 py-3 bg-[#3c6dd9] text-white rounded-lg hover:bg-[#2a5bc7] transition-colors">
+                        Try NOW
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Stats Section -->
+        <section class="mt-12 bg-[#2b2b36] py-16 px-4 md:px-16">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-normal text-white mb-6">Fast Crypto Exchange</h2>
+                    <p class="text-white text-lg max-w-lg">
+                        The average time for exchange is about 2 minutes. You can track the crypto swap progress on the exchange page.
+                    </p>
+                </div>
+                
+                <div class="md:w-1/2 grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-[#00c26f] text-5xl font-normal">98%</div>
+                        <div class="text-white text-lg mt-2">Triumph Rate</div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center">
+                            <div class="text-[#00c26f] text-5xl font-normal">5M</div>
+                            <svg class="w-6 h-6 text-[#00c26f] ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-white text-lg mt-2">Satisfied Clients</div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-[#00c26f] text-5xl font-normal">2 Min</div>
+                        <div class="text-white text-lg mt-2">Average Exchange Time</div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-[#00c26f] text-5xl font-normal">1500+</div>
+                        <div class="text-white text-lg mt-2">Currencies Available</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+<section class="mt-12 px-4 md:px-16">
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-medium text-white">Reliable Service</h2>
+        <div class="flex justify-center mt-2">
+            <div class="flex text-yellow-400">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loop Scrolling Container -->
+    <div class="testimonials-scroll-container overflow-hidden relative">
+        <div class="scroll-track flex space-x-6 py-4" id="testimonialsScroll">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-item flex-shrink-0 w-80 md:w-96">
+                <div class="testimonial-card rounded-xl p-8 h-full">
+                    <div class="flex text-yellow-400 mb-4">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    
+                    <p class="text-white text-sm mb-6">
+                        It has been great working with the ChangeNow team. They provide fast swaps with exceptional customer support and nearly zero technical issues. We are proud to have them as a partner.
+                    </p>
+                    
+                    <div class="flex items-center">
+                        <img src="images/testimonials/paul-puey.png" alt="Paul Puey" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <div class="text-white font-medium">Paul Puey</div>
+                            <div class="text-[#e6e7e8] text-sm">CEO, Edge Wallet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="testimonial-item flex-shrink-0 w-80 md:w-96">
+                <div class="testimonial-card rounded-xl p-8 h-full">
+                    <div class="flex text-yellow-400 mb-4">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    
+                    <p class="text-white text-sm mb-6">
+                        Integrating ChangeNow currency exchange into the Ballet crypto app has provided tremendous value and convenience for our users. Thanks ChangeNow!
+                    </p>
+                    
+                    <div class="flex items-center">
+                        <img src="images/testimonials/bobby-lee.webp" alt="Bobby Lee" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <div class="text-white font-medium">Bobby Lee</div>
+                            <div class="text-[#e6e7e8] text-sm">CEO, Ballet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- More testimonials would continue here... -->
+        </div>
+    </div>
+</section>
+
+        <!-- FAQ Section -->
+<section class="mt-24 px-4 md:px-16">
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-medium text-white">Frequently Asked Questions</h2>
+        <div class="flex justify-center mt-2">
+            <div class="flex text-yellow-400">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-6">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What is cryptocurrency?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Cryptocurrency is a digital currency secured by cryptography and operating on decentralized networks called blockchains. It enables peer-to-peer transactions without the need for intermediaries like banks.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>What is a blockchain?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>A blockchain is a distributed ledger that records transactions across a network of computers. It's secure, transparent, and immutable, meaning once data is recorded, it cannot be altered retroactively.</p>
+                </div>
+            </div>
+
+            <!-- More FAQ items would continue here... -->
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+            <!-- FAQ Item 5 -->
+            <div class="faq-item border-b border-[#46475d] py-6">
+                <button class="faq-question flex justify-between items-center w-full text-left text-white text-xl font-medium hover:text-[#00c26f] transition-colors duration-300">
+                    <span>How do I keep my cryptocurrency secure?</span>
+                    <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer mt-4 text-[#aeb0bd] text-lg hidden">
+                    <p>Use strong passwords, enable two-factor authentication, store your crypto in reputable wallets (hardware wallets for large amounts), never share your private keys, and be cautious of phishing attempts.</p>
+                </div>
+            </div>
+
+            <!-- More FAQ items would continue here... -->
+        </div>
+    </div>
+</div>
+</section>
+        
+    </section>
+
+    <!-- Other Sections (About, Tools, Licenses, Contact) -->
+   <!-- About Us Section -->
+<section id="about" class="view-section">
+    <div class="container mx-auto px-4 md:px-8 lg:px-12.5 py-8 md:py-12 lg:py-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-15 w-full">
+            <!-- Content Section -->
+            <div class="flex flex-col flex-1 items-start gap-4 lg:gap-3.5 w-full">
+                <!-- Logo Image -->
+                <div class="w-32 h-8 lg:w-23.5 lg:h-7.5 mb-2 lg:mb-4">
+                    <img src="images/about/logo.png" alt="ChangeNow Logo" class="w-full h-full object-contain">
+                </div>
+                
+                <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight lg:leading-14 heading-text">
+                    About Us
+                </h1>
+                <p class="text-[#9aacb6] text-base md:text-lg font-normal leading-6 lg:leading-8 paragraph-text max-w-2xl">
+                    Welcome to ChangeNOW, your premier destination for seamless cryptocurrency exchange. 
+                    We are dedicated to providing a secure, efficient, and user-friendly platform for all your crypto trading needs.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-3 lg:gap-3.5 mt-4 lg:mt-6 w-full sm:w-auto">
+                    <button class="flex justify-center items-center gap-2.5 bg-[#00c26f] rounded-full py-3 px-6 lg:py-2.5 lg:px-6.5 hover:bg-[#00a85f] transition-colors w-full sm:w-auto">
+                        <span class="text-white text-lg lg:text-xl font-medium leading-8">Learn More</span>
+                    </button>
+                    <button class="flex justify-center items-center gap-2.5 bg-[#2b2b36] rounded-full py-3 px-6 lg:py-2.5 lg:px-6.5 border border-[#64748b] hover:bg-[#343443] transition-colors w-full sm:w-auto">
+                        <span class="text-white text-lg lg:text-xl font-medium leading-8">Contact Us</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- About Image -->
+            <div class="flex-1 flex justify-center items-center w-full mt-8 lg:mt-0">
+                <div class="w-full max-w-lg lg:max-w-none">
+                    <img src="images/limitless.png" alt="About ChangeNow" 
+                         class="w-full h-auto max-h-[300px] lg:max-h-[400px] object-cover rounded-2xl lg:rounded-3xl">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            <!-- Our Values Section -->
+        <div class="flex flex-col items-center gap-8 lg:gap-12 w-full px-4 md:px-8 lg:px-12.5 mt-12 lg:mt-16 mb-8 lg:mb-12">
+            <div class="flex flex-col items-center gap-4 lg:gap-2.5 w-full">
+                <h2 class="text-white text-2xl md:text-3xl lg:text-4xl font-semibold leading-8 lg:leading-10 about-heading text-center">
+                    Our Values
+                </h2>
+                <p class="text-[#9aacb6] text-base md:text-lg font-normal leading-6 lg:leading-8 about-paragraph text-center max-w-3xl px-4">
+                    At ChangeNOW, we are guided by a set of core values that shape our platform and define our commitment to our users.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full max-w-6xl">
+                <!-- Value Card 1 -->
+                <div class="values-card rounded-xl lg:rounded-2xl flex flex-col items-start gap-3 lg:gap-3.5 p-4 lg:p-6 bg-[#343443] border border-[#46475d] hover:border-[#00c26f] transition-all duration-300">
+                    <div class="flex items-center gap-3 lg:gap-2.5">
+                        <div class="w-8 h-8 lg:w-10 lg:h-10 bg-[#00c26f] rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="white"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-white text-lg lg:text-xl font-semibold leading-7 lg:leading-8">Security First</h3>
+                    </div>
+                    <p class="text-[#9aacb6] text-sm lg:text-base font-normal leading-5 lg:leading-6">
+                        We prioritize the security of your assets with advanced encryption and multi-layer protection systems.
+                    </p>
+                </div>
+                
+                <!-- More value cards would continue here... -->
+            </div>
+        </div>
+        
+    
+</section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="view-section">
+        <div class="container mx-auto px-4 py-16">
+            <h1 class="text-4xl font-bold mb-8">Our Tools</h1>
+            <!-- Tools content would continue here... -->
+        </div>
+    </section>
+
+    <!-- Licenses Section -->
+    <section id="licenses" class="view-section">
+        <div class="container mx-auto px-4 py-16">
+            <h1 class="text-4xl font-bold mb-8">Licenses & Compliance</h1>
+            <!-- Licenses content would continue here... -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="view-section">
+        <div class="container mx-auto px-4 py-16">
+            <h1 class="text-4xl font-bold mb-8">Contact Us</h1>
+            <!-- Contact content would continue here... -->
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="view-section">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold mb-6">User Dashboard</h1>
+            <!-- Dashboard content would continue here... -->
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="admin" class="view-section">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">Admin Panel</h1>
+                <div class="flex space-x-4">
+                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center" onclick="openDepositModal()">
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Deposit
+                    </button>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition flex items-center" onclick="openWithdrawModal()">
+                        <i class="fas fa-minus-circle mr-2"></i>
+                        Withdraw
+                    </button>
+                </div>
+            </div>
+            <!-- Admin content would continue here... -->
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
